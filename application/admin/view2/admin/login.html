@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <title>硬石CMS管理系统</title>
+</head>
+<link rel="stylesheet" href="__PUBLIC__/backendsystem/default/css/login.css">
+<link href="__PUBLIC__/backendsystem/default/font/loginfont/iconfont.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/backendsystem/default/js/UnitX/config.js"></script>
+<body class=" login">
+
+
+<div class="bg">
+    <img src="__PUBLIC__/backendsystem/default/img/denglu.jpg">
+</div>
+<div class="middle-box">
+    <div class="panda">
+        <img src="__PUBLIC__/backendsystem/default/img/panda.png" class="p1">
+        <img src="__PUBLIC__/backendsystem/default/img/h1.png" class="p2">
+        <img src="__PUBLIC__/backendsystem/default/img/h2.png" class="p3">
+    </div>
+    <div class="form-box">
+        <form action="{:U('Admin/login')}" method="post">
+            <div class="input-container">
+                <div class="backg"></div>
+                <i class="iconfont icon-username"></i>
+                <span class="inp-text">用户名</span>
+                <input type="text"  name="username" id="" class="form-control input">
+            </div>
+            <div class="input-container">
+                <div class="backg"></div>
+                <i class="iconfont icon-psd"></i>
+                <span class="inp-text">密码</span>
+                <input type="password"  name="password" id="" class="form-control input psd">
+            </div>
+            <button type="submit" id="popup-submit">登录</button>
+            <div id="popup-captcha"></div>
+        </form>
+        <a href="http://www.h-rock.com/" target="_blank">
+            <p class="copyright">技术支持：硬石CMS管理系统</p>
+        </a>
+    </div>
+</div>
+
+
+
+</body>
+<script type="text/javascript" src="__PUBLIC__/backendsystem/default/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/backendsystem/default/js//gt/gt.js"></script>
+<script>
+    //触发enter事件
+    $('.psd').on('focus', function () {
+        $('.p2').addClass('p2-r');
+        $('.p3').addClass('p3-r');
+    });
+    $('.psd').on('blur', function () {
+        $('.p2').removeClass('p2-r');
+        $('.p3').removeClass('p3-r');
+    });
+    $('.input-container input').on('focus', function () {
+        $(this).siblings('.inp-text').stop(true, true).fadeOut(300);
+    });
+    $('.input-container input').on('blur', function () {
+        if (!$(this).val()) {
+            $(this).siblings('.inp-text').stop(true, true).fadeIn(300);
+        }
+    });
+    var handlerPopup = function (captchaObj) {
+        $("#popup-submit").click(function () {
+            var validate = captchaObj.getValidate();
+            var tel_phone=$('input[name=tel_phone]').val();
+            var password=$('input[name=password]').val();
+            if (!validate) {
+                $('#popup-submit').click();
+                return false;
+            }
+//            $.ajax({
+//                url: "{:U('Admin/VerifyLoginServlet')}",
+//                type: "post",
+//                data: {
+//                    geetest_challenge: validate.geetest_challenge,
+//                    geetest_validate: validate.geetest_validate,
+//                    geetest_seccode: validate.geetest_seccode,
+//                    tel_phone:tel_phone,
+//                    password:password,
+//                },
+//                success: function (result) {
+//                    if (result == "success") {
+//                        window.location.href="{:U('Buyer/notpaid')}";
+//                    } else {
+//                        alert(result)
+//                    }
+//                }
+//            });
+
+        });
+        captchaObj.bindOn("#popup-submit");
+        captchaObj.appendTo("#popup-captcha");
+    };
+    $.ajax({
+        url: "{:U('Admin/StartCaptchaServlet',array('t'=>time()))}",
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            initGeetest({
+                gt: data.gt,
+                challenge: data.challenge,
+                product: "popup",
+                offline: !data.success
+            }, handlerPopup);
+        }
+    });
+    /*
+     var handlerEmbed = function (captchaObj) {
+     $("#embed-submit").click(function (e) {
+     var validate = captchaObj.getValidate();
+     if (!validate) {
+     $("#notice")[0].className = "show";
+     setTimeout(function () {
+     $("#notice")[0].className = "hide";
+     }, 2000);
+     e.preventDefault();
+     }
+     });
+     // 将验证码加到id为captcha的元素里
+     captchaObj.appendTo("#embed-captcha");
+     captchaObj.onReady(function () {
+     $("#wait")[0].className = "hide";
+     });
+     };
+     $.ajax({
+     // 获取id，challenge，success（是否启用failback）
+     url: "{:U('Login/StartCaptchaServlet',array('t'=>time()))}", // 加随机数防止缓存
+     type: "get",
+     dataType: "json",
+     success: function (data) {
+     // 使用initGeetest接口
+     // 参数1：配置参数
+     // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+     initGeetest({
+     gt: data.gt,
+     challenge: data.challenge,
+     product: "float", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+     offline: !data.success // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+     }, handlerEmbed);
+     }
+     });*/
+</script>
+</html>
