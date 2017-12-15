@@ -4,32 +4,32 @@
     <div class="fixed-bar">
         <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
             <div class="subject">
-                <h3>裸钻 </h3>
-                <h5>编辑添加与管理</h5>
+                <h3>品牌详情</h3>
+                <h5>品牌添加与管理</h5>
             </div>
         </div>
     </div>
     <!--表单数据-->
-    <form method="post" id="addEditSpecForm">
+    <form method="post" id="addEditBrandForm" >
         <div class="ncap-form-default">
             <dl class="row">
                 <dt class="tit">
-                    <label for="ac_name"><em>*</em>证书号</label>
+                    <label><em>*</em>证书号</label>
                 </dt>
                 <dd class="opt">
                     <input type="text" name="certificate"   class="input-txt"/>
-                    <span id="err_name" class="err" style="color:#F00; display:none;"></span>
+                    <span id="certificate" class="err" style="color:#F00; display:none;"></span>
                     <p class="notic"></p>
                 </dd>
             </dl>
 
             <dl class="row">
                 <dt class="tit">
-                    <label for="record_no"><em>*</em>形状：</label>
+                    <label><em>*</em>形状：</label>
                 </dt>
                 <dd class="opt">
                     <select id="cat_id"  class="small form-control">
-                        <option value="0">请选择商品分类</option>
+                        <option value="">请选择商品分类</option>
                         <foreach name="cat_list" item="v" key="k" >
                             <!--<option value="{$v['id']}" <if condition="$v['name'] neq '定制'">disabled</if> >
                             {$v['name']}
@@ -42,17 +42,17 @@
                         </foreach>
                     </select>
                     <select name="shape_id" id="cat_id_2" onChange="get_category(this.value,'cat_id_3','0');" class="small form-control">
-                        <option value="0">请选择商品分类</option>
+                        <option value="">请选择商品分类</option>
                     </select>
-                    <!--<select name="cat_id_3" id="cat_id_3" class="small form-control">-->
-                        <!--<option value="0">请选择商品分类</option>-->
-                    <!--</select>-->
-                    <span class="err" id="err_cat_id" style="color:#F00; display:none;"></span>
+                    <!--<select name="cat_id_3" id="cat_id_3" class="small form-control">
+                        <option value="0">请选择商品分类</option>
+                    </select>-->
+                    <span class="err" id="shape_id" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
             <dl class="row">
                 <dt class="tit">
-                    <label for="parent_id"><em>*</em>颜色：</label>
+                    <label><em>*</em>颜色：</label>
                 </dt>
                 <dd class="opt">
                     <select name="color"  class="small form-control">
@@ -62,12 +62,12 @@
                         <option value="F">F</option>
                         <option value="G">G</option>
                     </select>
-                    <span class="err" style="color:#F00; display:none;"></span>
+                    <span class="err" id="color" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
             <dl class="row">
                 <dt class="tit">
-                    <label for="parent_id"><em>*</em>净度：</label>
+                    <label><em>*</em>净度：</label>
                 </dt>
                 <dd class="opt">
                     <select name="neatness" class="small form-control">
@@ -78,12 +78,12 @@
                         <option value="VS1">VS1</option>
                         <option value="VS2">VS2</option>
                     </select>
-                    <span class="err" style="color:#F00; display:none;"></span>
+                    <span class="err" id="neatness" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
             <dl class="row">
                 <dt class="tit">
-                    <label for="parent_id"><em>*</em>切工：</label>
+                    <label><em>*</em>切工：</label>
                 </dt>
                 <dd class="opt">
                     <select name="cut" class="small form-control">
@@ -91,12 +91,12 @@
                         <option value="IF">EX</option>
                         <option value="VVS1">VG</option>
                     </select>
-                    <span class="err" style="color:#F00; display:none;"></span>
+                    <span class="err" id="cut" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
             <dl class="row">
                 <dt class="tit">
-                    <label for="parent_id"><em>*</em>抛光：</label>
+                    <label><em>*</em>抛光：</label>
                 </dt>
                 <dd class="opt">
                     <select name="polishing" class="small form-control">
@@ -104,12 +104,12 @@
                         <option value="IF">EX</option>
                         <option value="VVS1">VG</option>
                     </select>
-                    <span class="err" style="color:#F00; display:none;"></span>
+                    <span class="err" id="polishing" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
             <dl class="row">
                 <dt class="tit">
-                    <label for="parent_id"><em>*</em>对称：</label>
+                    <label><em>*</em>对称：</label>
                 </dt>
                 <dd class="opt">
                     <select name="symmetry" class="small form-control">
@@ -117,41 +117,62 @@
                         <option value="IF">EX</option>
                         <option value="VVS1">VG</option>
                     </select>
-                    <span class="err" style="color:#F00; display:none;"></span>
+                    <span class="err" id="symmetry" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
 
             <dl class="row">
                 <dt class="tit">
-                    <label for="ac_name"><em>*</em>重量：</label>
+                    <label><em>*</em>重量：</label>
                 </dt>
                 <dd class="opt">
                     <input type="text" name="weight"   class="input-txt"/>
                     <span>cts</span>
-                    <span class="err" style="color:#F00; display:none;"></span>
+                    <span class="err" id="weight" style="color:#F00; display:none;"></span>
                     <p class="notic"></p>
                 </dd>
             </dl>
             <dl class="row">
                 <dt class="tit">
-                    <label for="ac_name"><em>*</em>价格：</label>
+                    <label><em>*</em>价格：</label>
                 </dt>
                 <dd class="opt">
                     <input type="text" name="price"   class="input-txt"/>
                     <span>元</span>
-                    <span class="err" style="color:#F00; display:none;"></span>
+                    <span class="err" id="price" style="color:#F00; display:none;"></span>
                     <p class="notic"></p>
                 </dd>
             </dl>
-
-            <div class="bot"><a href="JavaScript:void(0);" onClick="ajax_submit_form('addEditSpecForm','{:U('Goods/addEditCustom?is_ajax=1')}');" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+            <!--<dl class="row">
+                <dt class="tit">
+                    <label>品牌logo</label>
+                </dt>
+                <dd class="opt">
+                    <div class="input-file-show">
+              <span class="show">
+                  <a id="img_a" target="_blank" class="nyroModal" rel="gal" href="{$brand.logo}">
+                    <i id="img_i" class="fa fa-picture-o" onmouseover="layer.tips('<img src={$brand.logo}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"></i>
+                  </a>
+              </span>
+                        <span class="type-file-box">
+                  <input type="text" id="logo" name="logo" value="{$brand.logo}" class="type-file-text">
+                  <input type="button" name="button" id="button1" value="选择上传..." class="type-file-button">
+                  <input class="type-file-file" onClick="GetUploadify(1,'','brand','img_call_back')" size="30" hidefocus="true" nc_type="change_site_logo"
+                         title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+              </span>
+                    </div>
+                    <span class="err"></span>
+                    <p class="notic">请上传图片格式文件</p>
+                </dd>
+            </dl>-->
+            <div class="bot"><a href="JavaScript:void(0);" onClick="verifyForm();" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
         </div>
-        <!--<input type="hidden" name="id" value="{$spec.id}">-->
+        <input type="hidden" name="id" value="{$brand.id}">
+        <input type="hidden" name="p" value="{$_GET[p]}">
     </form>
 </div>
-
-</body>
 <script>
+
     //选择分类
     $(function(){
         $(document).on("change",'#cat_id',function(){
@@ -170,29 +191,55 @@
             initIsVirtual();
         })
     })
-    /** 以下是编辑时默认选中某个商品分类*/
-    $(document).ready(function(){
+    // 判断输入框是否为空
+    //function checkName(){
+    //	var name = $("#addEditBrandForm").find("input[name='name']").val();
+    //    if($.trim(name) == '')
+    //	{
+    //		$("#err_name").show();
+    //		return false;
+    //	}
+    //	return true;
+    //}
+
+    function verifyForm(){
+        //$('span.err').show();
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/Goods/addEditCustom')}",
+            data: $('#addEditBrandForm').serialize(),
+            dataType: "json",
+            error: function () {
+                layer.alert("服务器繁忙, 请联系管理员!");
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    location.href = "{:U('Admin/Goods/custom')}";
+                } else {
+                    $('.err').css('display','none');
+                    layer.msg(data.msg, {icon: 2});
+                    $.each(data.result, function (index, item) {
+                        $('#'+index).text(item).css('display','inline');
+                    });
+                }
+            }
+        });
+    }
 
 
-        <if condition="$level_cat['2'] gt 0">
-                // 商品分类第二个下拉菜单
-                get_category('{$level_cat[1]}','cat_id_2','{$level_cat[2]}');
-        </if>
-        <if condition="$level_cat['3'] gt 0">
-                // 商品分类第二个下拉菜单
-                get_category('{$level_cat[2]}','cat_id_3','{$level_cat[3]}');
-        </if>
-
-        //  扩展分类
-        <if condition="$level_cat2['2'] gt 0">
-                // 商品分类第二个下拉菜单
-                get_category('{$level_cat2[1]}','extend_cat_id_2','{$level_cat2[2]}');
-        </if>
-        <if condition="$level_cat2['3'] gt 0">
-                // 商品分类第二个下拉菜单
-                get_category('{$level_cat2[2]}','extend_cat_id_3','{$level_cat2[3]}');
-        </if>
-
-    });
+    window.onload = function(){
+        var brand_cat_id = parseInt('{$brand.cat_id}');
+        if(brand_cat_id > 0 ){
+            get_category($("#parent_id_1").val(),'parent_id_2',brand_cat_id);
+        }
+    }
+    function img_call_back(fileurl_tmp)
+    {
+        $("#logo").val(fileurl_tmp);
+        $("#img_a").attr('href', fileurl_tmp);
+        $("#img_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+    }
 </script>
+</body>
 </html>
