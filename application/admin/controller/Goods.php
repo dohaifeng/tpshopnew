@@ -900,32 +900,27 @@ class Goods extends Base {
      * */
     public function addEditCustom()
     {
-        $model = D("spec");
-        $id = I('id/d',0);
-        if ((I('is_ajax') == 1) && IS_POST){
-            // 数据验证
-            $validate = \think\Loader::validate('Custom');
-            $post_data = I('post.');
-            dump($post_data);die;
-            $scene = $id>0 ? 'edit' :'add';
-            if (!$validate->scene($scene)->batch()->check($post_data)) {  //验证数据
-                $error = $validate->getError();
-                $error_msg = array_values($error);
-                $this->ajaxReturn(['status' => -1,'msg' => $error_msg[0],'data' => $error]);
+        $id = I('id');
+        if(IS_POST)
+        {
+            $data = I('post.');
+            $brandVilidate = Loader::validate('Custom');
+            if(!$brandVilidate->batch()->check($data)){
+                $error = $brandVilidate->getError();
+//                $error_msg = array_values($error);
+                $return = ['status'=>0,'msg'=>'操作失败','result'=>$error];
+                $this->ajaxReturn($return);
             }
-            $model->data($post_data, true); // 收集数据
-            if ($scene == 'edit') {
-                $model->isUpdate(true)->save(); // 写入数据到数据库
-                $model->afterSave(I('id'));
-            } else {
-                $model->save(); // 写入数据到数据库
-                $insert_id = $model->getLastInsID();
-                $model->afterSave($insert_id);
+            if($id){
+                M("Custom")->update($data);
+            }else{
+                M("Custom")->insert($data);
             }
-            $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url' => U('Admin/Goods/specList')]);
+            $this->ajaxReturn(['status'=>1,'msg'=>'操作成功','result'=>'']);
         }
-        $cat_list = M('goods_category')->where("parent_id = 0")->select();
-//        dump($cat_list);
+        $custom = M("Custom")->find($id);
+        $this->assign('brand',$custom);
+        $cat_list = M('goods_category')->where("parent_id = 0")->select();// 已经改成联动菜单
         $this->assign('cat_list',$cat_list);
         return $this->fetch('custom/addEditCustom'); 
     }
