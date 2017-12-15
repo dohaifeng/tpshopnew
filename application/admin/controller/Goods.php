@@ -917,6 +917,8 @@ class Goods extends Base {
                 M("Custom")->insert($data);
             }
             $this->ajaxReturn(['status'=>1,'msg'=>'操作成功','result'=>'']);
+
+
         }
         $custom = M("Custom")->find($id);
         $this->assign('brand',$custom);
