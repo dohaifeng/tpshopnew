@@ -17,7 +17,7 @@
                     <label><em>*</em>证书号</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" name="certificate"   class="input-txt"/>
+                    <input type="text" name="certificate" value="{$custom.certificate}" class="input-txt"/>
                     <span id="certificate" class="err" style="color:#F00; display:none;"></span>
                     <p class="notic"></p>
                 </dd>
@@ -28,20 +28,20 @@
                     <label><em>*</em>形状：</label>
                 </dt>
                 <dd class="opt">
-                    <select id="cat_id"  class="small form-control">
+                    <select id="cat_id" name="cat_id"  class="small form-control">
                         <option value="">请选择商品分类</option>
                         <foreach name="cat_list" item="v" key="k" >
                             <!--<option value="{$v['id']}" <if condition="$v['name'] neq '定制'">disabled</if> >
                             {$v['name']}
                             </option>-->
                             <if condition="$v['name'] eq '定制'">
-                                <option value="{$v['id']}">
+                                <option value="{$v['id']}" <if condition="$v[id] eq $custom[cat_id]"> selected="selected" </if>>
                                     {$v['name']}
                                 </option>
                             </if>
                         </foreach>
                     </select>
-                    <select name="shape_id" id="cat_id_2" onChange="get_category(this.value,'cat_id_3','0');" class="small form-control">
+                    <select name="shape_id" id="cat_id_2" class="small form-control">
                         <option value="">请选择商品分类</option>
                     </select>
                     <!--<select name="cat_id_3" id="cat_id_3" class="small form-control">
@@ -57,10 +57,10 @@
                 <dd class="opt">
                     <select name="color"  class="small form-control">
                         <option value="">请选择</option>
-                        <option value="D">D</option>
-                        <option value="E">E</option>
-                        <option value="F">F</option>
-                        <option value="G">G</option>
+                        <option value="D" <if condition="$custom[color] eq 'D'"> selected="selected" </if>>D</option>
+                        <option value="E" <if condition="$custom[color] eq 'E'"> selected="selected" </if>>E</option>
+                        <option value="F" <if condition="$custom[color] eq 'F'"> selected="selected" </if>>F</option>
+                        <option value="G" <if condition="$custom[color] eq 'G'"> selected="selected" </if>>G</option>
                     </select>
                     <span class="err" id="color" style="color:#F00; display:none;"></span>
                 </dd>
@@ -72,11 +72,11 @@
                 <dd class="opt">
                     <select name="neatness" class="small form-control">
                         <option value="">请选择</option>
-                        <option value="IF">IF</option>
-                        <option value="VVS1">VVS1</option>
-                        <option value="VVS2">VVS2</option>
-                        <option value="VS1">VS1</option>
-                        <option value="VS2">VS2</option>
+                        <option value="IF" <if condition="$custom[neatness] eq 'IF'"> selected="selected" </if>>IF</option>
+                        <option value="VVS1" <if condition="$custom[neatness] eq 'VVS1'"> selected="selected" </if>>VVS1</option>
+                        <option value="VVS2" <if condition="$custom[neatness] eq 'VVS2'"> selected="selected" </if>>VVS2</option>
+                        <option value="VS1" <if condition="$custom[neatness] eq 'VS1'"> selected="selected" </if>>VS1</option>
+                        <option value="VS2" <if condition="$custom[neatness] eq 'VS2'"> selected="selected" </if>>VS2</option>
                     </select>
                     <span class="err" id="neatness" style="color:#F00; display:none;"></span>
                 </dd>
@@ -88,8 +88,8 @@
                 <dd class="opt">
                     <select name="cut" class="small form-control">
                         <option value="">请选择</option>
-                        <option value="IF">EX</option>
-                        <option value="VVS1">VG</option>
+                        <option value="EX" <if condition="$custom[cut] eq 'EX'"> selected="selected" </if>>EX</option>
+                        <option value="VG" <if condition="$custom[cut] eq 'VG'"> selected="selected" </if>>VG</option>
                     </select>
                     <span class="err" id="cut" style="color:#F00; display:none;"></span>
                 </dd>
@@ -101,8 +101,8 @@
                 <dd class="opt">
                     <select name="polishing" class="small form-control">
                         <option value="">请选择</option>
-                        <option value="IF">EX</option>
-                        <option value="VVS1">VG</option>
+                        <option value="EX" <if condition="$custom[polishing] eq 'EX'"> selected="selected" </if>>EX</option>
+                        <option value="VG" <if condition="$custom[polishing] eq 'VG'"> selected="selected" </if>>VG</option>
                     </select>
                     <span class="err" id="polishing" style="color:#F00; display:none;"></span>
                 </dd>
@@ -114,19 +114,28 @@
                 <dd class="opt">
                     <select name="symmetry" class="small form-control">
                         <option value="">请选择</option>
-                        <option value="IF">EX</option>
-                        <option value="VVS1">VG</option>
+                        <option value="EX" <if condition="$custom[symmetry] eq 'EX'"> selected="selected" </if>>EX</option>
+                        <option value="VG" <if condition="$custom[symmetry] eq 'VG'"> selected="selected" </if>>VG</option>
                     </select>
                     <span class="err" id="symmetry" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
-
+            <dl class="row">
+                <dt class="tit">
+                    <label>排序：</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="sort" placeholder="排序" value="{$custom['sort']}" class="input-txt"/>
+                    <span class="err" id="sort" style="color:#F00; display:none;"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
             <dl class="row">
                 <dt class="tit">
                     <label><em>*</em>重量：</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" name="weight"   class="input-txt"/>
+                    <input type="text" name="weight" value="{$custom['weight']}" class="input-txt"/>
                     <span>cts</span>
                     <span class="err" id="weight" style="color:#F00; display:none;"></span>
                     <p class="notic"></p>
@@ -137,7 +146,7 @@
                     <label><em>*</em>价格：</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" name="price"   class="input-txt"/>
+                    <input type="text" name="price" value="{$custom['price']}" class="input-txt"/>
                     <span>元</span>
                     <span class="err" id="price" style="color:#F00; display:none;"></span>
                     <p class="notic"></p>
@@ -167,7 +176,7 @@
             </dl>-->
             <div class="bot"><a href="JavaScript:void(0);" onClick="verifyForm();" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
         </div>
-        <input type="hidden" name="id" value="{$brand.id}">
+        <input type="hidden" name="id" value="{$custom.id}">
         <input type="hidden" name="p" value="{$_GET[p]}">
     </form>
 </div>
@@ -177,20 +186,20 @@
     $(function(){
         $(document).on("change",'#cat_id',function(){
             get_category($(this).val(),'cat_id_2','0');
-            $('#cat_id_3').empty().html("<option value='0'>请选择商品分类</option>");
+//            $('#cat_id_3').empty().html("<option value='0'>请选择商品分类</option>");
         })
     })
-    $(function(){
-        $(document).on("change",'#extend_cat_id',function(){
-            get_category($(this).val(),'extend_cat_id_2','0');
-            $('#extend_cat_id_3').empty().html("<option value='0'>请选择商品分类</option>");
-        })
-    })
-    $(function(){
-        $(document).on("click",'.is_virtual',function(){
-            initIsVirtual();
-        })
-    })
+//    $(function(){
+//        $(document).on("change",'#extend_cat_id',function(){
+//            get_category($(this).val(),'extend_cat_id_2','0');
+//            $('#extend_cat_id_3').empty().html("<option value='0'>请选择商品分类</option>");
+//        })
+//    })
+//    $(function(){
+//        $(document).on("click",'.is_virtual',function(){
+//            initIsVirtual();
+//        })
+//    })
     // 判断输入框是否为空
     //function checkName(){
     //	var name = $("#addEditBrandForm").find("input[name='name']").val();
@@ -229,11 +238,12 @@
 
 
     window.onload = function(){
-        var brand_cat_id = parseInt('{$brand.cat_id}');
+        var brand_cat_id = parseInt('{$custom.shape_id}');
         if(brand_cat_id > 0 ){
-            get_category($("#parent_id_1").val(),'parent_id_2',brand_cat_id);
+            get_category($("#cat_id").val(),'cat_id_2',brand_cat_id);
         }
     }
+
     function img_call_back(fileurl_tmp)
     {
         $("#logo").val(fileurl_tmp);

@@ -714,7 +714,7 @@ class Goods extends Base {
                 $this->ajaxReturn(['status'=>1,'msg'=>'操作成功','result'=>'']);
             }           
            $cat_list = M('goods_category')->where("parent_id = 0")->select(); // 已经改成联动菜单
-           $this->assign('cat_list',$cat_list);           
+           $this->assign('cat_list',$cat_list);
            $brand = M("Brand")->find($id);             
            $this->assign('brand',$brand);
            return $this->fetch('_brand');
@@ -892,6 +892,20 @@ class Goods extends Base {
      * */
     public function custom()
     {
+        $model = M("Custom");
+        $where = "";
+        $keyword = I('keyword');
+        $where = $keyword ? " name like '%$keyword%' " : "";
+        $count = $model->where($where)->count();
+        $Page = $pager = new Page($count,10);
+        $brandList = $model->alias('a')->join("tp_goods_category b","b.id = a.shape_id")->where($where)->order("`sort` asc")->limit($Page->firstRow.','.$Page->listRows)->field('a.*,b.name')->select();
+        $show  = $Page->show();
+        $cat_list = M('goods_category')->where("parent_id = 0")->getField('id,name'); // 已经改成联动菜单
+        $this->assign('cat_list',$cat_list);
+        $this->assign('pager',$pager);
+        $this->assign('show',$show);
+//        dump($brandList);
+        $this->assign('brandList',$brandList);
         return $this->fetch('custom/index');
     }
 
@@ -921,10 +935,26 @@ class Goods extends Base {
 
         }
         $custom = M("Custom")->find($id);
-        $this->assign('brand',$custom);
+        $this->assign('custom',$custom);
         $cat_list = M('goods_category')->where("parent_id = 0")->select();// 已经改成联动菜单
         $this->assign('cat_list',$cat_list);
-        return $this->fetch('custom/addEditCustom'); 
+        return $this->fetch('custom/addEditCustom');
+    }
+
+    /*
+     * 删除裸钻
+     * */
+    public function delCustom()
+    {
+        $ids = I('post.ids','');
+        empty($ids) && $this->ajaxReturn(['status' => -1,'msg' => '非法操作！']);
+        $brind_ids = rtrim($ids,",");
+
+        $res=Db::name('Custom')->whereIn('id',$brind_ids)->delete();
+        if($res){
+            $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url'=>U("Admin/goods/custom")]);
+        }
+        $this->ajaxReturn(['status' => -1,'msg' => '操作失败','data'  =>'']);
     }
 
 }
